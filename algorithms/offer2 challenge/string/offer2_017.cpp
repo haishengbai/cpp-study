@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
 /*
@@ -44,6 +45,24 @@ s 和 t 由英文字母组成
 class Solution {
 public:
     string minWindow(string s, string t) {
+        int s_length = s.length();
+        int t_length = t.length();
+
+        int min_length = 0;
+
+        if (s_length < t_length)
+        {
+            return "";
+        }
+        
+
+        vector<int> counts(52);
+        for (int i = 0; i < t_length; i++)
+        {
+            counts[s[i] - 'a']++;
+            counts[t[i] - 'a']--;
+        }
+        
 
     }
 };
