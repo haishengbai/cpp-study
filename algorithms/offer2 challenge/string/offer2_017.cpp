@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <map>
 using namespace std;
 
 /*
@@ -18,7 +19,7 @@ using namespace std;
 示例 1：
 
 输入：s = "ADOBECODEBANC", t = "ABC"
-输出："BANC" 
+输出："BANC"
 解释：最短子字符串 "BANC" 包含了字符串 t 的所有字符 'A'、'B'、'C'
 示例 2：
 
@@ -42,27 +43,76 @@ s 和 t 由英文字母组成
 
 */
 
-class Solution {
+class Solution
+{
 public:
-    string minWindow(string s, string t) {
+    string minWindow(string s, string t)
+    {
+
         int s_length = s.length();
         int t_length = t.length();
 
-        int min_length = 0;
-
-        if (s_length < t_length)
-        {
-            return "";
-        }
+        map<char, int> t_map_counts;
+        // map<char, int> count_map;
         
-
-        vector<int> counts(52);
         for (int i = 0; i < t_length; i++)
         {
-            counts[s[i] - 'a']++;
-            counts[t[i] - 'a']--;
+            t_map_counts[t[i]]++;
         }
-        
 
+        int min_length = INT_MAX;
+        int count = t_map_counts.size();
+    
+        int start = 0, end = 0, minStart = 0, minEnd = 0;
+
+        while (end < s_length || (count == 0 && end == s_length))
+        {
+            if (count > 0)
+            {
+                char endCh = s[end];
+                if (t_map_counts.find(endCh) != t_map_counts.end())
+                {
+                    t_map_counts[endCh]--;
+                    if (t_map_counts[endCh] == 0)
+                    {
+                        count--;
+                    }
+                }
+
+                end++;
+            }
+            else
+            {
+                if (end - start < min_length)
+                {
+                    min_length = end - start;
+                    minStart = start;
+                    minEnd = end;
+                }
+
+                char startCh = s[start];
+                if (t_map_counts.find(startCh) != t_map_counts.end())
+                {
+                    t_map_counts[startCh]++;
+                    if (t_map_counts[startCh] == 1)
+                    {
+                        count++;
+                    }
+                }
+                start++;
+            }
+        }
+
+        return min_length < INT_MAX ? s.substr(minStart, minEnd) : "";
     }
 };
+
+int main() {
+
+
+    Solution solution;
+    string a = solution.minWindow("abc", "b");
+
+    cout << "result :" << a << endl;
+
+}
