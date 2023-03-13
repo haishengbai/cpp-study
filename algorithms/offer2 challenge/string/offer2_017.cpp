@@ -103,7 +103,38 @@ public:
             }
         }
 
-        return min_length < INT_MAX ? s.substr(minStart, minEnd) : "";
+        return min_length < INT_MAX ? s.substr(minStart, min_length) : "";
+    }
+
+    string minWindow2(string s, string t) {
+        
+        int s_length = s.length();
+        int t_length = t.length();
+
+        int start = 0, end = 0;
+
+        
+        map<char, int> t_map;
+        for (int i = 0; i < t_length; i++)
+        {
+            t_map[t[i]]++;
+        }
+        int count = t_map.size();
+
+        while (end < s_length)
+        {
+            if (count > 0)
+            {
+                char s_char = s[end];
+
+                
+            }
+            
+        }
+        
+
+
+
     }
 };
 
